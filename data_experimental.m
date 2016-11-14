@@ -12,8 +12,8 @@ b=0.925;
 %Adding some noise to the measurements
 %rng(3);
 measures2=measures;
-measures=measures+normrnd(0,0.002,m,1);
-
+measures=measures+normrnd(0,0.002,N,1);
+measures-measures2
 
 T=table(x,y,measures);
 writetable(T,'experimental_data.csv','Delimiter',',');
