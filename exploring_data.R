@@ -29,7 +29,7 @@ data$location=as.factor(data$location)
 
 
 hmm=data.frame(location=levels(data$location),z=exper$measures)
-#
+hmm2=data.frame(location=levels(data$location),z=rep(0.925,10));
 #
 #
 ##Plotting the results from the emulator
@@ -42,6 +42,9 @@ g=ggplot(data,aes(b))+facet_wrap(~location)
 
 g=g+geom_hline(data=hmm,aes(yintercept=z,color='Experimental Measurements'))#color='Experimental Masures'))
 
+g=g+geom_vline(data=hmm2,aes(xintercept=z,color='Real Value'),
+linetype='dashed')
+
 g=g+geom_point(aes(y=output,color='Emulator'))+scale_alpha_manual(values=c(0,1))#color='Emulator Results'))
 
 g=g+ggtitle('Emulator Output for Each of the 10 Measuremente Sites')+xlab('Value of the Parameter b')
@@ -49,10 +52,10 @@ g=g+ggtitle('Emulator Output for Each of the 10 Measuremente Sites')+xlab('Value
 g=g+ylab('Solution u')+theme_bw()
 
 
-g=g+scale_color_manual(values=c('black','black'),
-guide=guide_legend(override.aes=list(linetype=c('solid','blank'),shape=c(NA,16)),title='Legend'))
+g=g+scale_linetype_manual(values=c('black','black','black'),
+guide=guide_legend(override.aes=list(linetype=c(0,1,2),shape=c(16,NA,NA),title='Legend')))
 #g=g+guides(color=guide_legend(override.aes=list(linetype=c(1,0),shape=c(NA,16))))
-g=g+theme(legend.position=c(0.7,0.2))
+#g=g+theme(legend.position=c(0.7,0.2))
 
 print(g)
 
