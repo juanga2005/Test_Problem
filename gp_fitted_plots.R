@@ -1,4 +1,4 @@
-#Script to fit the values of the prediction of the GP fit
+#hjScript to fit the values of the prediction of the GP fit
 
 library(ggplot2)
 
@@ -34,29 +34,29 @@ for(k in 1:n){
 g=ggplot(data,aes(test),size=1)+facet_wrap(~location)
 
 #Adding the first layer
-g=g+geom_line(aes(y=fit,color='green'))#size=0.5) #Adding the fits
-g=g+geom_point(data=data2,aes(x=train,y=output),size=0.1,show.legend=T)#Adding the points
+g=g+geom_point(data=data2,aes(x=train,y=output,color='Emulator output'),size=1)#Adding the points
+g=g+geom_line(aes(y=fit,color='GP fit'),linetype='solid')#size=0.5) #Adding the fits
+
+
 #Telling ggplot to put the true exp measurement in each facet
 interm=data.frame(location=levels(as.factor(data$location)),y=measures)
 interm2=data.frame(location=levels(as.factor(data$location)),y=rep(0.925,10))
 
 
-g=g+geom_hline(data=interm,aes(yintercept=measures,color='blue'),linetype='dashed')
-g=g+geom_vline(data=interm2,aes(xintercept=y,color='black'),linetype='dashed')
+g=g+geom_hline(data=interm,aes(yintercept=measures,color='Experimental Measure'),linetype='dashed')
+g=g+geom_vline(data=interm2,aes(xintercept=y,color='Real b value'),linetype='dashed')
 
 #Adding labels
-g=g+labs(title='Ilustration of GP',x='b',y='Output')
 
 #Adding legends
 bb=values=c('green','red','blue','black')
-a=guide_legend(override.aes=list(linetype=c(1,0,2,2),shape=c(NA,16,NA,NA),title='Legend'))
-g=g+scale_linetype_manual(values=c('solid','NA','dashed','dashed'),guide=a)
+a=guide_legend(override.aes=list(linetype=c('blank','dashed','solid','dashed'),shape=c(16,NA,NA,NA)))
+g=g+scale_colour_manual('Legend',values=c('black','blue','red','purple'),guide=a)
 
-#g=g+scale_linetype_manual(values=c('dashed','dashed'),name='fittings',labels=c('eqn1','eqn2'),
-#guide='legend')
 g=g+theme(legend.position=c(0.7,0.2))
 
-print(g)	
+g=g+labs(title='Ilustration of GP',x='b',y='Output')
+ggsave('../Tesis/FigChap3/fitted.jpg',g)
 	
 	
 	

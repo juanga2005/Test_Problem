@@ -1,22 +1,18 @@
-#Script to play around with llabels and legends
-
+#Script to play around with ggplot legends shit
 library(ggplot2)
+#Adding the first two layers
+g=ggplot(data=mpg,aes(cty,hwy,col=as.factor(cyl)))+facet_grid(~class)+geom_point(size=3)
 
-state=c(T,F)
-effect=c(0.5,1.0)
-test=c('A','B')
+#Adding the layer of coloours given the values of cyl
 
-df=expand.grid(Test=test,State=state,Effect=effect)
+#Adding the trending line
+g=g+geom_smooth(aes(group=1,colour='Trendline'),method='loess',se=F,linetype='dashed')
 
-set.seed(1234)
-df$Val=rnorm(nrow(df))
 
-cols=c('T'='red','F'='green')
-shapes=c('T'=15,'F'=10)
 
-g=ggplot(data=df)
-g=g+geom_point(aes(x=Test,y=Val,color=cols),size=4)
-#g=g+scale_shape_manual(values=state)#breaks=c('T','F'))
-g=g+scale_color_manual(values=state)
+#Here comes the overriding part
+
+pivot=guide_legend(override.aes=list(linetype=c(rep('blank',4),'dashed'),shape=c(rep(16,4),NA)))
+g=g+scale_colour_manual('This is the legend :)',values=c('purple','green','blue','yellow','red'),guide=pivot)
 
 print(g)
