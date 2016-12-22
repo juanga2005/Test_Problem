@@ -44,7 +44,7 @@ G=function(b){
 
 #Computing the nonconstant part of the posterior
 
-sigma=2e-3 #The value of the std for the noise
+sigma=5.4e-3 #The value of the std for the noise
 posterior=function(b){
 	#b is the point where we want to evaluate the function
 	#sigma is the variance
@@ -62,26 +62,30 @@ posterior=function(b){
 nsim=10000 #Number of steps I want to take
 
 X=numeric(nsim);X[1]=1#Initializing X
-delta=0.05; #Step size
-
+delta=0.23; #Step size
+acc=0
 for(k in 1:nsim){
 	y=runif(1,X[k]-delta,X[k]+delta) #Proposed step
 
 	#Creating pi(X)
-	gx=G(X[k]);
+	gx=posterior(X[k]);
 	
 	#Checking that steps belongs to [0,2]
 	if(y<=2 & y>=0){
-		gy=G(y)
+		gy=posterior(y)
 	}
 	else{
 		gy=0
 	}
-
-	#Checkingn the acceptance
+#Checkingn the acceptance
 
 	rho=min(1,gy/gx)
 	X[k+1]=X[k]+(y-X[k])*(runif(1)<rho)
+	##if(X[k+1]!=X[k]){
+	##	acc=acc+1
+	#}
 }
+
+write.csv(X,'MCMCresult.csv')
 
 

@@ -44,7 +44,7 @@ G=function(b){
 
 #Computing the nonconstant part of the posterior
 
-sigma=1e-2 #The value of the std for the noise
+sigma=2e-3 #The value of the std for the noise
 posterior=function(b){
 	#b is the point where we want to evaluate the function
 	#sigma is the variance
@@ -52,15 +52,13 @@ posterior=function(b){
 	n=sum(v^2)
 	C=-0.5/sigma^2
 	e=n*C
-	b=1/(sqrt(2*pi)*sigma)
-	return(b*exp(e))
+	return(exp(e))
 }
 
 
-
 #####Ploting the posterior
-
-b=seq(0,2,by=0.01)
+db=0.001
+b=seq(0,2,by=db)
 
 y=numeric(length(b));
 
@@ -73,5 +71,9 @@ for(k in 1:length(b)){
 	#y[k]=GP(train[,1],b[k])
 	y[k]=posterior(b[k])
 }
+
+#Finding the constant of integration
+Const=sum(y)*db
+y=y/Const
 
 write.csv(y,'posterior.csv')
