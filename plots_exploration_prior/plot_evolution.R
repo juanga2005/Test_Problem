@@ -4,7 +4,6 @@ library(ggplot2)
 
 
 bstar=5;sigmab=sqrt(2.5) #This values are taken from posterior.R
-pri=dnorm(b,bstar,sigmab)
 df=read.csv('stored_evolution.csv');df=df[,-1];df=as.matrix(df)
 n=dim(df)[1]
 sites=matrix(rep(0,n*10),n,10)
@@ -17,6 +16,7 @@ for(k in 1:10){
 sites=expand.grid(sites);
 b=seq(0,8,length=dim(df)[1])
 B=rep(b,10);
+pri=dnorm(b,bstar,sigmab)
 P=rep(pri,10);
 Tru=rep(0.925,n*10)
 posterior=data.frame(b=B,posterior=expand.grid(df),site=sites,prior=P,TV=Tru)		

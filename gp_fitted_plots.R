@@ -56,7 +56,8 @@ g=g+scale_colour_manual('Legend',values=c('black','blue','red','purple'),guide=a
 g=g+theme(legend.position=c(0.7,0.2))
 
 g=g+labs(title='Ilustration of GP',x='b',y='Output')
-ggsave('../Tesis/FigChap3/fitted.jpg',g)
+#ggsave('../Tesis/FigChap3/fitted.jpg',g)
+print(g)
 	
 	
 	
