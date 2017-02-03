@@ -46,18 +46,19 @@ simul=data.frame(sites=sites2,t=rep(train,10),meas=dsim);
 names(simul)=c('site','bten','y')
 
 #Starting the plotting part
-g=ggplot(data,aes(b),size=1)+facet_wrap(~site)+geom_line(aes(y=GPfit,colour='GPfit'))
+g=ggplot(data,aes(b),size=1)+facet_wrap(~site)+geom_line(aes(y=GPfit,colour='GP Fit Over Test Points'))
 
 #Adding the trueb and expm
-g=g+geom_line(aes(x=btrue,y=yy,colour='True b'),linetype='dashed')
-g=g+geom_line(aes(y=expmeasure,colour='Experimental Measure'),linetype='dashed')
+g=g+geom_line(aes(x=btrue,y=yy,colour='True Value of b'),linetype='dashed')
+g=g+geom_line(aes(y=expmeasure,colour='Experimental Measure at the Site'),linetype='dashed')
 
-g=g+geom_point(data=simul,aes(x=bten,y=y,col='simulation'))
+g=g+geom_point(data=simul,aes(x=bten,y=y,col='Numerical Solution u At the Site'))
 #Adding the labels and legends
 pivot=guide_legend(override.aes=list(linetype=c('dashed','solid','blank','dashed'),shape=c(NA,NA,16,NA)))
 g=g+scale_color_manual('Legend',values=c('blue','green','red','black'),guide=pivot)
 
-g=g+labs(x='b',y=expression(tilde(u)(x,b)),title='Simulation and Fitting')
+g=g+labs(x='b',y=expression(tilde(u)(x,b)),title='Numerical Solution and GP Fit for
+each of the Ten Sites')
 g=g+theme(plot.title=element_text(hjust=0.5),legend.position=c(0.75,0.15))
 
 
